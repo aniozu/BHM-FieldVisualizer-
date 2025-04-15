@@ -197,9 +197,12 @@ def find_nearest_zero_crossing_points(a, L, N, stream_H):
             min_z_idx = np.argmin(np.abs(z_vals))  # z の絶対値が最小のインデックス
             nearest_point = (rho_vals[min_z_idx], z_vals[min_z_idx])
             crossing_points.append(nearest_point)
-
-    return np.array(crossing_points)[:,[1,0]]
-
+    
+    try:
+        return np.array(crossing_points)[:,[1,0]]
+    except:
+        return None
+        
 def getStartPointsB(a, L, N, stream_H):
     midpoints_out, midpoints_in = calcStartRhos(a, L, N)
     
@@ -211,7 +214,8 @@ def getStartPointsB(a, L, N, stream_H):
     addpoints = find_nearest_zero_crossing_points(a, L, N, stream_H)
     
     # 既存の start_points に追加
-    start_points = np.vstack((start_points, addpoints))
+    if addpoints is not None:
+        start_points = np.vstack((start_points, addpoints))
     return start_points
 
 def getStartPointsM(a, L, N):

@@ -12,7 +12,7 @@ st.title(r'$B$と$H$に関するチュートリアル')
 st.write('このページでは問の答えをシミュレーションを使って確認することができます。')
 option = st.selectbox("問を選んでください", ["問2-3", "問2-4", "問4-1"])
 a = st.sidebar.slider("半径 (a)", min_value=0.5, max_value=2.0, value=1., step=0.1)
-L = st.sidebar.slider("長さ (L)", min_value=1.0, max_value=5.0, value=4.0, step=0.1)
+L = st.sidebar.slider("長さ (L)", min_value=1.5, max_value=5.0, value=4.0, step=0.1)
 N = st.sidebar.slider("本数 (N)", min_value=10, max_value=20, value=14, step=1)
 
 # グリッド設定
