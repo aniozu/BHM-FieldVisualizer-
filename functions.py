@@ -151,9 +151,9 @@ def getStartPointsH(a, L, N):
     start_z_pos_in = np.full(len(midpoints_in), L / 2 - delta)
     # start_z_neg_in = np.full(len(midpoints_in), -L / 2 + delta)
     
-    start_points_out_pos = np.vstack((start_rho_out, start_z_pos_out)).T
-    start_points_out_neg = np.vstack((start_rho_out, start_z_neg_out)).T
-    start_points_in_pos = np.vstack((start_rho_in, start_z_pos_in)).T
+    start_points_out_pos = np.vstack((start_z_pos_out, start_rho_out)).T
+    start_points_out_neg = np.vstack((start_z_neg_out, start_rho_out)).T
+    start_points_in_pos = np.vstack((start_z_pos_in, start_rho_in)).T
     # start_points_in_neg = np.vstack((start_rho_in, start_z_neg_in)).T
     
     # 全ての開始点を統合
@@ -178,7 +178,7 @@ def find_nearest_zero_crossing_points(a, L, N, stream_H):
     # すべての流線について処理
     for path in stream_H.lines.get_paths():
         verts = path.vertices  # (N, 2) の座標リスト
-        rho_vals, z_vals = verts[:, 0], verts[:, 1]
+        rho_vals, z_vals = verts[:, 1], verts[:, 0]
 
         # rho = ±a を横切るか判定
         crosses_a = False
@@ -198,7 +198,7 @@ def find_nearest_zero_crossing_points(a, L, N, stream_H):
             nearest_point = (rho_vals[min_z_idx], z_vals[min_z_idx])
             crossing_points.append(nearest_point)
 
-    return crossing_points
+    return np.array(crossing_points)[:,[1,0]]
 
 def getStartPointsB(a, L, N, stream_H):
     midpoints_out, midpoints_in = calcStartRhos(a, L, N)
@@ -206,7 +206,7 @@ def getStartPointsB(a, L, N, stream_H):
     # ストリームラインの開始点
     start_rho = midpoints_out
     start_z_pos = np.full(len(midpoints_out), L / 2)
-    start_points = np.vstack((start_rho, start_z_pos)).T
+    start_points = np.vstack((start_z_pos, start_rho)).T
     
     addpoints = find_nearest_zero_crossing_points(a, L, N, stream_H)
     
@@ -220,5 +220,5 @@ def getStartPointsM(a, L, N):
     start_rho = (edges[:-1] + edges[1:]) / 2
     # start_z_pos = np.full(N, L / 2)
     start_z_neg = np.full(N, -L / 2)
-    start_points = np.vstack((start_rho, start_z_neg)).T
+    start_points = np.vstack((start_z_neg, start_rho)).T
     return start_points
