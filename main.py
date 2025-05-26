@@ -10,10 +10,10 @@ st.set_page_config(layout="wide")
 st.sidebar.title("パラメータ設定")
 st.title(r'$B$と$H$に関するチュートリアル')
 st.write('このページでは問の答えをシミュレーションを使って確認することができます。')
-option = st.selectbox("問を選んでください", ["問2-3", "問2-4", "問4-1"])
-a = st.sidebar.slider("半径 (a)", min_value=0.5, max_value=2.0, value=1., step=0.1)
+option = st.selectbox("問を選んでください", ["問2-3", "問2-5", "問4-1"])
+a = st.sidebar.slider("半径 (a)", min_value=0.5, max_value=2.0, value=1.5, step=0.1)
 L = st.sidebar.slider("長さ (L)", min_value=1.5, max_value=5.0, value=4.0, step=0.1)
-N = st.sidebar.slider("本数 (N)", min_value=10, max_value=20, value=14, step=1)
+N = st.sidebar.slider("本数 (N)", min_value=6, max_value=20, value=8, step=1)
 
 # グリッド設定
 Ngrid = 200
@@ -124,8 +124,8 @@ if option == "問4-1":
     # Hの流線 (streamplot)
     start_points_H = getStartPointsH(a, L, N)
     
-    stream_H = axs[1].streamplot(Z, RHO, H_z_vals, H_rho_vals, color='k', density=20, arrowsize=2, start_points=start_points_H)
-    axs[1].set_title(r"$\mu _0H$", fontsize=20)
+    stream_H = axs[0].streamplot(Z, RHO, H_z_vals, H_rho_vals, color='k', density=20, arrowsize=2, start_points=start_points_H)
+    axs[0].set_title(r"$\mu _0H$", fontsize=20)
     
     # B計算
     B_rho_vals = B_rho(RHO, Z, a, L)
@@ -133,8 +133,8 @@ if option == "問4-1":
 
     # Bの流線 (streamplot)
     start_points_B = getStartPointsB(a, L, N, stream_H)
-    axs[0].streamplot(Z, RHO, B_z_vals, B_rho_vals, color='k', density=20, arrowsize=2, start_points=start_points_B)
-    axs[0].set_title(r"$B$", fontsize=20)
+    axs[2].streamplot(Z, RHO, B_z_vals, B_rho_vals, color='k', density=20, arrowsize=2, start_points=start_points_B)
+    axs[2].set_title(r"$B$", fontsize=20)
 
     # M計算
     M_rho_vals = M_rho(RHO, Z, a, L)
@@ -142,8 +142,8 @@ if option == "問4-1":
 
     # Mの流線 (streamplot)
     start_points_M = getStartPointsM(a, L, N)
-    axs[2].streamplot(Z, RHO, M_z_vals, M_rho_vals, color='k', density=100, arrowsize=2, start_points=start_points_M)
-    axs[2].set_title(r"$\mu _0M$", fontsize=20)
+    axs[1].streamplot(Z, RHO, M_z_vals, M_rho_vals, color='k', density=100, arrowsize=2, start_points=start_points_M)
+    axs[1].set_title(r"$\mu _0M$", fontsize=20)
     
     buf = BytesIO()
     fig.savefig(buf, format="png")
