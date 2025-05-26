@@ -59,7 +59,7 @@ if option == "問2-3":
     st.image(buf)
 
 
-if option == "問2-4":
+if option == "問2-5":
     # H_rho計算
     H_rho_vals = H_rho(RHO, Z, a, L)
     H_z_vals = H_z(RHO, Z, a, L)
