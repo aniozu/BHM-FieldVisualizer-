@@ -6,14 +6,28 @@ from functions import *
 
 st.set_page_config(layout="wide")
 
-# パラメータ設定（Streamlit用）
+# ====== サイドバーとページタイトル ======
 st.sidebar.title("パラメータ設定")
 st.title(r'$B$と$H$に関するチュートリアル')
 st.write('このページでは問の答えをシミュレーションを使って確認することができます。')
+
+# ====== 問 selectbox ======
 option = st.selectbox("問を選んでください", ["問2-3", "問2-5", "問4-1"])
+
+# ====== N の初期化（最初だけ） ======
+if "N" not in st.session_state:
+    st.session_state.N = 8  # デフォルト値
+
+# ====== 問4-1を選んだときに1回だけ6にする ======
+if option == "問4-1" and "set_N_for_4_1" not in st.session_state:
+    st.session_state.N = 6
+    st.session_state.set_N_for_4_1 = True
+
+# ====== スライダー ======
 a = st.sidebar.slider("半径 (a)", min_value=0.5, max_value=2.0, value=1.5, step=0.1)
 L = st.sidebar.slider("長さ (L)", min_value=1.5, max_value=5.0, value=4.0, step=0.1)
-N = st.sidebar.slider("本数 (N)", min_value=6, max_value=20, value=8, step=1)
+st.session_state.N = st.sidebar.slider("本数 (N)", min_value=6, max_value=20, value=st.session_state.N, step=1)
+N = st.session_state.N
 
 # グリッド設定
 Ngrid = 200
